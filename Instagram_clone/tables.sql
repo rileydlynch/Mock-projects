@@ -21,7 +21,6 @@ CREATE TABLE photos(
 	comments_id INT,
 	image_path VARCHAR(255) NOT NULL,
 	FOREIGN KEY (tags_id) REFERENCES hashtags (id),
-    /*ALTER TABLE photos ADD CONSTRAINT fk_photo_tags_id_to_hashtags FOREIGN KEY (tags_id) REFERENCES hashtags (id);*/
 	FOREIGN KEY (user_id)
         REFERENCES users (id),
 	FOREIGN KEY (likes_id) REFERENCES likes (id),
