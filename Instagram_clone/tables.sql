@@ -6,23 +6,22 @@ CREATE TABLE users(
 	first_name VARCHAR(60),
 	last_name VARCHAR(60),
 	username VARCHAR(100) NOT NULL,
-	password LONGBLOB NOT NULL,
+	password VARCHAR(120) NOT NULL,
 	email VARCHAR(100) NOT NULL,
-	join_date TIMESTAMP NOT NULL,
-	last_login CHAR(19) NOT NULL
+	join_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	last_login TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )  ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE photos(
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	user_id INT,
-	created_date TIMESTAMP,
+	created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	tags_id INT,
 	likes_id INT,
 	comments_id INT,
 	image_path VARCHAR(255) NOT NULL,
 	FOREIGN KEY (tags_id) REFERENCES hashtags (id),
-	FOREIGN KEY (user_id)
-        REFERENCES users (id),
+	FOREIGN KEY (user_id) REFERENCES users (id),
 	FOREIGN KEY (likes_id) REFERENCES likes (id),
 	FOREIGN KEY (comments_id) REFERENCES comments (id)
 )  ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -45,7 +44,7 @@ CREATE TABLE comments(
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	users_id INT,
 	photos_id INT,
-	created_date TIMESTAMP,
+	created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	content varchar(500),
 	FOREIGN KEY (photos_id) REFERENCES photos (id),
 	FOREIGN KEY (users_id) REFERENCES users (id)
