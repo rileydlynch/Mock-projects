@@ -4,10 +4,8 @@ var faker = require('faker');
 var mysql = require('mysql');
 var bodyParser  = require("body-parser");
 
-app.set('view engine', 'ejs');
+app.set('view engine', 'ejs'); //allows usage of ejs webpages with greater functionality than plain HTML pages.
 app.use(bodyParser.urlencoded({extended: true}));
-
-  //console.log(faker.internet.email());
  
 var connection = mysql.createConnection({
   host     : 'localhost',
@@ -15,7 +13,7 @@ var connection = mysql.createConnection({
   database : 'InstaBLAM',   // the name of your db
 });
 
-app.get("/", function(req, res){
+app.get("/", function(req, res){ 
    console.log('Cookies: ', req.cookies)
  var q = 'SELECT COUNT(*) as count FROM users';
  connection.query(q, function (error, results) {
@@ -49,9 +47,9 @@ app.get("/login", function(req, res){
 
 app.post('/check_login', async function(req,res){
 	const bcrypt = await require("bcrypt");// compare new hash of password with one stored in MySQL database
-	Postres = res;
+	Postres = res; //these two variables allow me to access the req and res inside nested functions further down
 	Postreq = req;
-    var sqlstatement = "SELECT password FROM users WHERE username in ('" + req.body.username + "')"
+    var sqlstatement = "SELECT password FROM users WHERE username in ('" + req.body.username + "')" //Selects preexisting hashed password from MySQL database
 	CompPassword = await connection.query(sqlstatement, async function(err, res) {
 		console.log("The error, if any, is: " + err);
 		console.log("The password in the database is: " + res[0].password);
@@ -62,13 +60,12 @@ app.post('/check_login', async function(req,res){
 			  }
 			if (res){
 				console.log("It's a match!");
-				Postres.cookie('profile', Postreq.body.username);
+				Postres.cookie('profile', Postreq.body.username); //installs simple "profile" cookie which contains the username
 				Postres.redirect("/logged_in");
 			  }
 			else {
 				console.log("Not a match!");
 				console.log("The entered password is: " + hashedPassword);
-				// response is OutgoingMessage object that server response http request
 			  }
 		});
 	});
