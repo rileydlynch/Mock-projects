@@ -3,9 +3,14 @@ var app = express();
 var faker = require('faker');
 var mysql = require('mysql');
 var bodyParser  = require("body-parser");
+var multer = require('multer');
+var upload = multer({ dest: 'Images/' });
 
-app.set('view engine', 'ejs'); //allows usage of ejs webpages with greater functionality than plain HTML pages.
+app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.static('public'));
+
+  //console.log(faker.internet.email());
  
 var connection = mysql.createConnection({
   host     : 'localhost',
@@ -13,7 +18,7 @@ var connection = mysql.createConnection({
   database : 'InstaBLAM',   // the name of your db
 });
 
-app.get("/", function(req, res){ 
+app.get("/", function(req, res){
    console.log('Cookies: ', req.cookies)
  var q = 'SELECT COUNT(*) as count FROM users';
  connection.query(q, function (error, results) {
@@ -47,9 +52,9 @@ app.get("/login", function(req, res){
 
 app.post('/check_login', async function(req,res){
 	const bcrypt = await require("bcrypt");// compare new hash of password with one stored in MySQL database
-	Postres = res; //these two variables allow me to access the req and res inside nested functions further down
+	Postres = res;
 	Postreq = req;
-    var sqlstatement = "SELECT password FROM users WHERE username in ('" + req.body.username + "')" //Selects preexisting hashed password from MySQL database
+    var sqlstatement = "SELECT password FROM users WHERE username in ('" + req.body.username + "')"
 	CompPassword = await connection.query(sqlstatement, async function(err, res) {
 		console.log("The error, if any, is: " + err);
 		console.log("The password in the database is: " + res[0].password);
@@ -60,15 +65,27 @@ app.post('/check_login', async function(req,res){
 			  }
 			if (res){
 				console.log("It's a match!");
-				Postres.cookie('profile', Postreq.body.username); //installs simple "profile" cookie which contains the username
+				Postres.cookie('profile', Postreq.body.username);
 				Postres.redirect("/logged_in");
 			  }
 			else {
 				console.log("Not a match!");
 				console.log("The entered password is: " + hashedPassword);
+				// response is OutgoingMessage object that server response http request
 			  }
 		});
 	});
+});
+
+app.get("/new_photo", function(req, res){ //renders the photo upload page
+ res.render("new_photo");
+
+});
+
+app.post("/photo_upload", upload.single('photo'), function (req, res, next, err) { //posts the image to the Images folder.
+	console.log(req.file, req.body)
+    	res.status(204).end();
+	console.log("The error, if any, is: " + err);
 });
  
 app.listen(3000, function () {
