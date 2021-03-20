@@ -82,11 +82,12 @@ app.get("/new_photo", function(req, res){ //renders the photo upload page
 
 });
 
-app.post("/photo_upload", upload.single('photo'), function (req, res, next, err) { //posts the image to the Images folder.
-	console.log(req.file, req.body)
+app.post("/photo_upload", upload.single('photo'), function (req, res, next) { //posts the image to the Images folder.
+	var filepath = req.file.filename + JSON.stringify(req.file.mimetype).substring(6,11); //creates filepath variable for later use in a MySQL insert statement
+	console.log(filepath);
     	res.status(204).end();
-	console.log("The error, if any, is: " + err);
 });
+ 
  
 app.listen(3000, function () {
  console.log('App listening on port 3000!');
