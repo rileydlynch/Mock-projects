@@ -82,10 +82,29 @@ app.get("/new_photo", function(req, res){ //renders the photo upload page
 
 });
 
-app.post("/photo_upload", upload.single('photo'), function (req, res, next) { //posts the image to the Images folder.
-	var filepath = req.file.filename + JSON.stringify(req.file.mimetype).substring(6,11); //creates filepath variable for later use in a MySQL insert statement
-	console.log(filepath);
-    	res.status(204).end();
+app.post("/photo_upload", upload.single('photo'), function (req, res, next) {
+	var selectedID; //to be used in a later MySQL query
+	var cookie = getcookie(req); //Uses the pre-defined getcookie()
+	console.log("User is : "+ cookie[9].substring(8,cookie[9].length)); //confirming the username pulled from the cookie's 'profile' field
+	var profname = cookie[9].substring(8,cookie[9].length); //puts 'profile' value into variable
+	var filepath = req.file.filename + JSON.stringify(req.file.mimetype).substring(6,11); //puts file's path value into variable
+	console.log(filepath); //double checks filepath value
+    res.status(204).end();
+	var sqlstatement = "SELECT id FROM users WHERE username = '" + profname + "'"; //takes out ID and puts into variable to be used in 2nd MySQL query
+	connection.query(sqlstatement, function(err, res) {
+	console.log("The error, if any, is: " + err);
+	console.log("The User's ID is : " + res[0].id);
+	selectedID = res[0].id;
+		function photoinsert(id,path){ //had to create function to insert id & path in order to use the 'selectedID' variable as its value isn't global
+			var sqlstatement = "INSERT INTO photos(user_id, image_path) VALUES('" + id + "','" + path + "')";
+
+			connection.query(sqlstatement, function(err, result) {
+			console.log("The error, if any, is: " + err);
+			console.log(result);
+			})};
+		photoinsert(selectedID,filepath);
+	});
+
 });
  
  
