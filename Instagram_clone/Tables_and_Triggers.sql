@@ -1,3 +1,5 @@
+-- Tables section
+
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS; 
 SET FOREIGN_KEY_CHECKS=0;   
 
@@ -20,21 +22,23 @@ CREATE TABLE photos(
 	likes_id INT,
 	comments_id INT,
 	image_path VARCHAR(255) NOT NULL,
+	FOREIGN KEY (user_id) REFERENCES users (id),
 )  ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE hashtags(
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	photos_id INT,
-	tags varchar(150),
+	tags varchar(200),
 	FOREIGN KEY (photos_id) REFERENCES photos (id)
 )  ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE taglinks(
+/*CREATE TABLE taglinks(
 	photos_id INT,
 	hashtags_id INT,
 	FOREIGN KEY (photos_id) REFERENCES photos (id),
 	FOREIGN KEY (hashtags_id) REFERENCES hashtags (id)
-)  ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    PRIMARY KEY (photos_id,hashtags_id)
+)  ENGINE=InnoDB DEFAULT CHARSET=utf8;*/
 
 CREATE TABLE comments(
 	id INT AUTO_INCREMENT PRIMARY KEY,
@@ -62,3 +66,15 @@ CREATE TABLE follows(
 )  ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+
+-- Triggers section
+
+DELIMITER $$
+
+CREATE TRIGGER after_photos_insert
+BEFORE INSERT ON photos FOR EACH ROW
+BEGIN
+    SET NEW.image_path = REPLACE(image_path,'\"','');
+END$$
+
+DELIMITER ;
