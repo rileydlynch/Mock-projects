@@ -74,7 +74,7 @@ DELIMITER $$
 CREATE TRIGGER after_photos_insert
 BEFORE INSERT ON photos FOR EACH ROW
 BEGIN
-    SET NEW.image_path = REPLACE(image_path,'\"','');
+    SET NEW.image_path = REPLACE(NEW.image_path,'\"','');
 END$$
 
 DELIMITER ;
