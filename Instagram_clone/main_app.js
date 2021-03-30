@@ -5,6 +5,7 @@ var mysql = require('mysql');
 var bodyParser  = require("body-parser");
 var multer = require('multer');
 var upload = multer({ dest: 'Images/' });
+var JSON = require('JSON');
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
@@ -18,8 +19,30 @@ var connection = mysql.createConnection({
   database : 'InstaBLAM',   // the name of your db
 });
 
+function getcookie(req) {
+	var precook = req.headers.cookie.replace(/=/g, ":");
+	var cookie = precook.split(";");
+    const final = cookie.reduce((a, c) => {
+    const [property,value] = c.split(":")
+    return {...a, [property.trim()]: value}
+}, {});
+	return final
+};
+
+// function getcookie(req) {
+//     var precook = req.headers.cookie.replace(/=/g, ":");
+//     var cookie = precook.split(";");
+//     return cookie.reduce((a, c) => {
+//       const [property, value] = c.split(":")
+//       return {...a, property: value}
+//     }, {});
+// };
+
 app.get("/", function(req, res){
-   console.log('Cookies: ', req.cookies)
+ var cookie = getcookie(req);
+ // var cookie = precookie.split(";");
+ console.log(cookie);
+ console.log("User is : "+ cookie.profile);
  var q = 'SELECT COUNT(*) as count FROM users';
  connection.query(q, function (error, results) {
  if (error) throw error;
@@ -77,16 +100,21 @@ app.post('/check_login', async function(req,res){
 	});
 });
 
-app.get("/new_photo", function(req, res){ //renders the photo upload page
- res.render("new_photo");
+app.get("/cookiecheck", function(req, res){
+	var cookie = getcookie(req);
+	console.log(cookie.profile);
+	});
 
+app.get("/new_photo", function(req, res){
+ res.render("new_photo");
 });
+
 
 app.post("/photo_upload", upload.single('photo'), function (req, res, next) {
 	var selectedID; //to be used in a later MySQL query
 	var cookie = getcookie(req); //Uses the pre-defined getcookie()
-	console.log("User is : "+ cookie[9].substring(8,cookie[9].length)); //confirming the username pulled from the cookie's 'profile' field
-	var profname = cookie[9].substring(8,cookie[9].length); //puts 'profile' value into variable
+	console.log("User is : "+ cookie.profile); //confirming the username pulled from the cookie's 'profile' field
+	var profname = cookie.profile; //puts 'profile' value into variable
 	var filepath = req.file.filename + JSON.stringify(req.file.mimetype).substring(6,11); //puts file's path value into variable
 	console.log(filepath); //double checks filepath value
     res.status(204).end();
@@ -96,7 +124,7 @@ app.post("/photo_upload", upload.single('photo'), function (req, res, next) {
 	console.log("The User's ID is : " + res[0].id);
 	selectedID = res[0].id;
 		function photoinsert(id,path){ //had to create function to insert id & path in order to use the 'selectedID' variable as its value isn't global
-			var sqlstatement = "INSERT INTO photos(user_id, image_path) VALUES('" + id + "','" + path + "')";
+			var sqlstatement = "INSERT INTO photos(user_id,image_path) VALUES('" + id + "','" + path + "')";
 
 			connection.query(sqlstatement, function(err, result) {
 			console.log("The error, if any, is: " + err);
@@ -106,8 +134,7 @@ app.post("/photo_upload", upload.single('photo'), function (req, res, next) {
 	});
 
 });
- 
- 
+
 app.listen(3000, function () {
  console.log('App listening on port 3000!');
 });
