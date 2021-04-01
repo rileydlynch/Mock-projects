@@ -105,23 +105,22 @@ app.get("/cookiecheck", function(req, res){
 	console.log(cookie.profile);
 	});
 
+
 app.get("/new_photo", function(req, res){
  res.render("new_photo");
 });
 
-
-app.post("/photo_upload", upload.single('photo'), function (req, res, next) {
+app.post("/photo_upload", upload.single('photo','tags'), function (req, res, next) {
+	console.log("Tags are: " + req.body.tags);
 	var selectedID; //to be used in a later MySQL query
 	var cookie = getcookie(req); //Uses the pre-defined getcookie()
 	console.log("User is : "+ cookie.profile); //confirming the username pulled from the cookie's 'profile' field
 	var profname = cookie.profile; //puts 'profile' value into variable
 	var filepath = req.file.filename + JSON.stringify(req.file.mimetype).substring(6,11); //puts file's path value into variable
-	console.log(filepath); //double checks filepath value
-    res.status(204).end();
+	console.log("The filepath is: " + filepath); //double checks filepath value
 	var sqlstatement = "SELECT id FROM users WHERE username = '" + profname + "'"; //takes out ID and puts into variable to be used in 2nd MySQL query
-	connection.query(sqlstatement, function(err, res) {
+	connection.query(sqlstatement, async function(err, res) {//Inserts photo data
 	console.log("The error, if any, is: " + err);
-	console.log("The User's ID is : " + res[0].id);
 	selectedID = res[0].id;
 		function photoinsert(id,path){ //had to create function to insert id & path in order to use the 'selectedID' variable as its value isn't global
 			var sqlstatement = "INSERT INTO photos(user_id,image_path) VALUES('" + id + "','" + path + "')";
@@ -130,9 +129,26 @@ app.post("/photo_upload", upload.single('photo'), function (req, res, next) {
 			console.log("The error, if any, is: " + err);
 			console.log(result);
 			})};
-		photoinsert(selectedID,filepath);
+	photofunc = await photoinsert(selectedID,filepath);
+	filepath = filepath.replace(/"/g, "");
+		function idretrieve(path){
+			var sqlstatement1 = "SELECT id FROM photos WHERE image_path LIKE '" + path + "'";
+			connection.query(sqlstatement1, function(err, result) {//Selecting photo ID for later hashtag INSERT
+			console.log("The error, if any, is: " + err);
+			console.log("The photo database ID is: " + result[0].id);
+			var photoID = result[0].id;
+			function taginsert(id){//Simply inserts the tags into the hashtags table
+				var sqlstatement = "INSERT INTO hashtags(photos_id,tags) VALUES('" + id + "','" + req.body.tags + "')"	
+				connection.query(sqlstatement, function(err, result) {//Selecting photo ID for later hashtag INSERT
+				console.log("The error, if any, is: " + err);
+				console.log(result);
+			})};
+			taginsert(photoID);
+			})};
+	idret = await idretrieve(filepath);
 	});
-
+	
+	res.status(204).end();
 });
 
 app.listen(3000, function () {
