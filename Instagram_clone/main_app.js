@@ -111,16 +111,22 @@ app.get("/cookiecheck", function(req, res){
 	console.log(cookie.profile);
 	});
 
-app.get("/region_population", function(req, res){
- res.render("Region_Population");
+app.get("/api_examples", function(req, res){
+ res.render("API_Examples");
 });
 
-app.post("/country_pop_call", function(req, res){
+app.post("/wb_api_call", function(req, res){
  	var xmldir = "http://api.worldbank.org/v2/country/" + req.body.region + "/indicator/SP.POP.TOTL?date=" + req.body.year;
 	axios.get(xmldir)
-  .then(response => {
-    console.log(response.data);
-  });
+		.then(response => {
+			var axres = response.data;
+			parseString(axres, function (err, result) {
+				var popvar = Number(result['wb:data']['wb:data'][0]['wb:value'])
+				console.log("The population size of the " + result['wb:data']['wb:data'][0]['wb:country'][0]._ + " region was " + popvar.toLocaleString() + " in " + result['wb:data']['wb:data'][0]['wb:date'] + ".")
+				res.send("The population size of the " + result['wb:data']['wb:data'][0]['wb:country'][0]._ + " region was " + popvar.toLocaleString() + " in " + result['wb:data']['wb:data'][0]['wb:date'] + ".");
+				console.log(popvar.toLocaleString())
+			});
+		});
 });
 
 app.get("/new_photo", function(req, res){
