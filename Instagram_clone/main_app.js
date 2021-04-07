@@ -1,11 +1,26 @@
 var express = require('express');
 var app = express();
+var fs = require('fs')
 var faker = require('faker');
 var mysql = require('mysql');
 var bodyParser  = require("body-parser");
 var multer = require('multer');
 var upload = multer({ dest: 'Images/' });
 var JSON = require('JSON');
+var xml2js = require('xml2js');
+var parseString = xml2js.parseString;
+var xml = "<root>Hello xml2js!</root>";
+const axios = require('axios');
+
+function getcookie(req) {
+	var precook = req.headers.cookie.replace(/=/g, ":");
+	var cookie = precook.split(";");
+    const final = cookie.reduce((a, c) => {
+    const [property,value] = c.split(":")
+    return {...a, [property.trim()]: value}
+}, {});
+	return final
+};
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
@@ -19,15 +34,6 @@ var connection = mysql.createConnection({
   database : 'InstaBLAM',   // the name of your db
 });
 
-function getcookie(req) {
-	var precook = req.headers.cookie.replace(/=/g, ":");
-	var cookie = precook.split(";");
-    const final = cookie.reduce((a, c) => {
-    const [property,value] = c.split(":")
-    return {...a, [property.trim()]: value}
-}, {});
-	return final
-};
 
 // function getcookie(req) {
 //     var precook = req.headers.cookie.replace(/=/g, ":");
@@ -105,6 +111,17 @@ app.get("/cookiecheck", function(req, res){
 	console.log(cookie.profile);
 	});
 
+app.get("/region_population", function(req, res){
+ res.render("Region_Population");
+});
+
+app.post("/country_pop_call", function(req, res){
+ 	var xmldir = "http://api.worldbank.org/v2/country/" + req.body.region + "/indicator/SP.POP.TOTL?date=" + req.body.year;
+	axios.get(xmldir)
+  .then(response => {
+    console.log(response.data);
+  });
+});
 
 app.get("/new_photo", function(req, res){
  res.render("new_photo");
