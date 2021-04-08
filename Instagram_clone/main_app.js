@@ -122,11 +122,23 @@ app.post("/wb_api_call", function(req, res){
 			var axres = response.data;
 			parseString(axres, function (err, result) {
 				var popvar = Number(result['wb:data']['wb:data'][0]['wb:value'])
-				console.log("The population size of the " + result['wb:data']['wb:data'][0]['wb:country'][0]._ + " region was " + popvar.toLocaleString() + " in " + result['wb:data']['wb:data'][0]['wb:date'] + ".")
+				console.log("The population size of the " + result['wb:data']['wb:data'][0]['wb:country'][0]._ + " region was " + popvar.toLocaleString() + " in " + result['wb:data']['wb:data'][0]['wb:date'] + ".");
 				res.send("The population size of the " + result['wb:data']['wb:data'][0]['wb:country'][0]._ + " region was " + popvar.toLocaleString() + " in " + result['wb:data']['wb:data'][0]['wb:date'] + ".");
-				console.log(popvar.toLocaleString())
 			});
 		});
+});
+
+app.post("/nasa_api_call", function(req, res){
+	var xmls='<soap:Envelope xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tns="http://ssc.spdf.gsfc.nasa.gov/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://ssc.spdf.gsfc.nasa.gov/" name="SatelliteSituationCenterService" > <soap:Body> 	<tns:getAllGroundStations>1</tns:getAllGroundStations></soap:Body></soap:Envelope>';
+
+	axios.post('https://sscweb.gsfc.nasa.gov/WS/ssc/2/SatelliteSituationCenterService?wsdl',
+			   xmls,
+			   {headers:
+				 {'Content-Type': 'text/xml'}
+			   }).then(res=>{
+				 console.log(res);
+			   }).catch(err=>{console.log(err)});
+	
 });
 
 app.get("/new_photo", function(req, res){
