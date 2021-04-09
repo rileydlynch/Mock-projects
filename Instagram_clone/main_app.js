@@ -11,6 +11,7 @@ var xml2js = require('xml2js');
 var parseString = xml2js.parseString;
 var xml = "<root>Hello xml2js!</root>";
 const axios = require('axios');
+const ObjectsToCsv = require('objects-to-csv');
 
 function getcookie(req) {
 	var precook = req.headers.cookie.replace(/=/g, ":");
@@ -129,6 +130,8 @@ app.post("/wb_api_call", function(req, res){
 });
 
 app.post("/nasa_api_call", function(req, res){
+	var apires = res;
+	var gsvar = req.body.groundstation;
 	var xmls='<soap:Envelope xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tns="http://ssc.spdf.gsfc.nasa.gov/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://ssc.spdf.gsfc.nasa.gov/" name="SatelliteSituationCenterService" > <soap:Body> 	<tns:getAllGroundStations>1</tns:getAllGroundStations></soap:Body></soap:Envelope>';
 
 	axios.post('https://sscweb.gsfc.nasa.gov/WS/ssc/2/SatelliteSituationCenterService?wsdl',
@@ -136,8 +139,11 @@ app.post("/nasa_api_call", function(req, res){
 			   {headers:
 				 {'Content-Type': 'text/xml'}
 			   }).then(res=>{
-				 console.log(res);
-			   }).catch(err=>{console.log(err)});
+				parseString(res.data, async function (err, result) {
+					var nasaobj = result['S:Envelope']['S:Body'][0]['ns2:getAllGroundStationsResponse'][0]['return'].find(x => x.id == gsvar);
+					apires.send("The " + nasaobj.name + " ground station is located at latitude " + nasaobj.latitude + " and longitude " + nasaobj.longitude + ".");
+					});
+				}).catch(err=>{console.log(err)});
 	
 });
 
