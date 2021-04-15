@@ -13,6 +13,9 @@ var xml = "<root>Hello xml2js!</root>";
 const axios = require('axios');
 const ObjectsToCsv = require('objects-to-csv');
 
+var appRoot = process.env.PWD;
+
+
 function getcookie(req) {
 	var precook = req.headers.cookie.replace(/=/g, ":");
 	var cookie = precook.split(";");
@@ -21,6 +24,13 @@ function getcookie(req) {
     return {...a, [property.trim()]: value}
 }, {});
 	return final
+};
+
+async function getnav() {
+	var filedat = await fs.readFileSync(appRoot + '/navbar.html', "utf8", function(err, data) {	
+		return data;
+	});
+	return filedat;
 };
 
 app.set('view engine', 'ejs');
@@ -35,17 +45,8 @@ var connection = mysql.createConnection({
   database : 'InstaBLAM',   // the name of your db
 });
 
-
-// function getcookie(req) {
-//     var precook = req.headers.cookie.replace(/=/g, ":");
-//     var cookie = precook.split(";");
-//     return cookie.reduce((a, c) => {
-//       const [property, value] = c.split(":")
-//       return {...a, property: value}
-//     }, {});
-// };
-
-app.get("/", function(req, res){
+app.get("/", async function(req, res){
+ var navdata = await getnav();
  var cookie = getcookie(req);
  // var cookie = precookie.split(";");
  console.log(cookie);
@@ -55,7 +56,7 @@ app.get("/", function(req, res){
  if (error) throw error;
  var count = results[0].count
  //var msg = "Welcome to the homepage! We have " + results[0].count + " users.";
- res.render("join_us",{data:count});
+ res.render("join_us",{data:count,navidata:navdata});
  });
 });
 
@@ -72,12 +73,14 @@ app.post('/register', async function(req,res){
  });
 });
 
-app.get("/logged_in", function(req, res){
- res.render("logged_in");
+app.get("/logged_in", async function(req, res){
+	var navdata = await getnav();
+	res.render("logged_in", {data:navdata});
 });
 
-app.get("/login", function(req, res){
- res.render("login");
+app.get("/login", async function(req, res){
+	var navdata = await getnav();
+	res.render("login", {data:navdata});
 });
 
 app.post('/check_login', async function(req,res){
@@ -112,8 +115,9 @@ app.get("/cookiecheck", function(req, res){
 	console.log(cookie.profile);
 	});
 
-app.get("/api_examples", function(req, res){
- res.render("API_Examples");
+app.get("/api_examples", async function(req, res){
+	var navdata = await getnav(); 
+	res.render("API_Examples", {data:navdata});
 });
 
 app.post("/wb_api_call", function(req, res){
@@ -142,13 +146,15 @@ app.post("/nasa_api_call", function(req, res){
 				parseString(res.data, async function (err, result) {
 					var nasaobj = result['S:Envelope']['S:Body'][0]['ns2:getAllGroundStationsResponse'][0]['return'].find(x => x.id == gsvar);
 					apires.send("The " + nasaobj.name + " ground station is located at latitude " + nasaobj.latitude + " and longitude " + nasaobj.longitude + ".");
+					console.log("The " + nasaobj.name + " ground station is located at latitude " + nasaobj.latitude + " and longitude " + nasaobj.longitude + ".");
 					});
 				}).catch(err=>{console.log(err)});
 	
 });
 
-app.get("/new_photo", function(req, res){
- res.render("new_photo");
+app.get("/new_photo", async function(req, res){
+	var navdata = await getnav();
+	res.render("new_photo", {data:navdata});
 });
 
 app.post("/photo_upload", upload.single('photo','tags'), function (req, res, next) {
