@@ -1,9 +1,15 @@
+<head>
+   <link rel="stylesheet" href="/styles.css">
+</head>
+
+<%- data %>
+
 <h1>PHOTO UPLOAD</h1><br/>
 
 <form method="POST" enctype="multipart/form-data" action="/photo_upload">
-	<span>Upload Photo:</span>  
-	<input type="file" name="photo" /><br/><br/>
 	<span>Choose hashtags:</span> 
 	<input type="text" name="tags" maxlength="255" placeholder="#these#are#my#tags"/> <br/><br/>
+	<span>Upload Photo:</span>  
+	<input type="file" name="photo" /><br/><br/>
    <input type="submit" value="submit">
 </form>
