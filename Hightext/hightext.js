@@ -1,12 +1,21 @@
 document.getElementById("button1").addEventListener("click", getSelectionText);
 
 function getSelectionText() {
-    var text = "";
+
+	
     if (window.getSelection) {
-        text = window.getSelection().toString(); //assigns selected text to variable
-		alert(text); //alerts selected text
-		document.getElementById("mytext").innerHTML = document.getElementById("mytext").innerHTML.replace(text,"<mark>" + text + "</mark>"); //puts <mark> around selected text, thus highlighting text. https://stackoverflow.com/questions/31872270/javascript-replace-text-in-an-element
-    } else if (document.selection && document.selection.type != "Control") {
+		var selected = document.getSelection();
+		var selecttext = "";
+		var docparent;
+		var anchornode = document.getSelection().anchorNode;
+		var wholetext = anchornode.wholeText;
+		var importantindex = document.getSelection().anchorOffset;
+		var newinnerHTML  = wholetext.slice(2,importantindex).concat("<mark>" + document.getSelection().toString() + "</mark>",wholetext.slice(document.getSelection().focusOffset,wholetext.length));
+        selecttext =selected.toString(); //assigns selected text to variable
+		docparent = anchornode.parentNode
+		anchornode.parentNode.innerHTML = newinnerHTML; //selects the first instance of text selected, need to make sure it selects the correct instance.
+    }
+	else if (document.selection && document.selection.type != "Control") {
         text = document.selection.createRange().text;
 		alert(text);
 		document.getElementById("mytext").innerHTML = document.getElementById("mytext").innerHTML.replace(text,"<mark>" + text + "</mark>");
