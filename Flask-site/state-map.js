@@ -5,7 +5,7 @@ import dash_core_components as dcc
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-app.layout = html.Div([ //This div is a dropdown containing choices of all 50 US states.
+app.layout = html.Div([ #//This div is a dropdown containing choices of all 50 US states.
     dcc.Dropdown(
         id='state-choice',
         options=[
@@ -60,9 +60,13 @@ app.layout = html.Div([ //This div is a dropdown containing choices of all 50 US
 {'label': 'Wisconsin', 'value': 'Wisconsin'},
 {'label': 'Wyoming', 'value': 'Wyoming'}
         ],
-        value=''
+        placeholder='Click here for a dropdown or type to search for a state.'
     ),
-    html.Div(id='state-choice-output'), //This div is blank, but its value after being changed is defined below under "update_output"
+    html.Div(id='state-choice-output'), #//This div's value is blank, but its value after being changed is defined below under "update_output"
+    html.Div(["",
+              dcc.Input(id='user-data-input', placeholder='Click here to enter your data', type='text')]),
+    html.Br(),
+    html.Div(id='user-data-output'),
 ])
 
 
@@ -70,7 +74,7 @@ app.layout = html.Div([ //This div is a dropdown containing choices of all 50 US
     dash.dependencies.Output('state-choice-output', 'children'),
     [dash.dependencies.Input('state-choice', 'value')])
 def update_output(value):
-    return 'You have selected "{}"'.format(value) //Here is where the value of the 'state-choice-output' Div is updated.
+    return 'You have selected "{}". Please enter your data below:'.format(value) #//Here is where the value of the 'state-choice-output' Div is updated.
 
 
 if __name__ == '__main__':
