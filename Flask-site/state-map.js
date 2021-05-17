@@ -1,12 +1,26 @@
 import dash
-import dash_html_components as html
 import dash_core_components as dcc
+import dash_html_components as html
+from dash.dependencies import Input, Output
+import plotly.express as px
+import pandas as pd
+import plotly.graph_objects as go
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-app.layout = html.Div([ #//This div is a dropdown containing choices of all 50 US states.
-    dcc.Dropdown(
+
+fig = go.Figure(go.Scattergeo())
+fig.update_geos(
+    visible=False, resolution=110, scope="usa",
+    showcountries=True, countrycolor="Black",
+    showsubunits=True, subunitcolor="Blue"
+)
+fig.update_layout(height=700, margin={"r":0,"t":0,"l":0,"b":0})
+fig.show()
+
+app.layout = html.Div([ 
+    dcc.Dropdown(#//This div is a dropdown containing choices of all 50 US states.
         id='state-choice',
         options=[
 {'label': 'Alabama', 'value': 'Alabama'},
@@ -64,9 +78,10 @@ app.layout = html.Div([ #//This div is a dropdown containing choices of all 50 U
     ),
     html.Div(id='state-choice-output'), #//This div's value is blank, but its value after being changed is defined below under "update_output"
     html.Div(["",
-              dcc.Input(id='user-data-input', placeholder='Click here to enter your data', type='text')]),
+              dcc.Input(id='user-data-input', placeholder='Input your data here', type='text')]),
     html.Br(),
     html.Div(id='user-data-output'),
+	dcc.Graph(figure=fig),
 ])
 
 
