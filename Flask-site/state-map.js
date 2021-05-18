@@ -14,7 +14,7 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 import pandas as pd //This step imports a csv with the data you want to display on the map
-df = pd.read_csv("file:///C:/Users/riley/documents/python%20scripts/maps/popdata.csv",
+df = pd.read_csv("https://raw.githubusercontent.com/rileydlynch/Mock-projects/main/Flask-site/popdata.csv",
                    dtype={"Geoid": str})
 
 import plotly.express as px
