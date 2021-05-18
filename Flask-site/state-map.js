@@ -5,21 +5,34 @@ from dash.dependencies import Input, Output
 import plotly.express as px
 import pandas as pd
 import plotly.graph_objects as go
-
+from urllib.request import urlopen
+import json
+with urlopen('https://eric.clst.org/assets/wiki/uploads/Stuff/gz_2010_us_040_00_500k.json') as response:
+    states = json.load(response) //This imports GeoJSON data that is used to draw polygons on top of a map, in this case polygons of US states.
+	
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-fig = go.Figure(go.Scattergeo())
-fig.update_geos(
-    visible=False, resolution=110, scope="usa",
-    showcountries=True, countrycolor="Black",
-    showsubunits=True, subunitcolor="Blue"
-)
-fig.update_layout(height=700, margin={"r":0,"t":0,"l":0,"b":0})
-fig.show()
+import pandas as pd //This step imports a csv with the data you want to display on the map
+df = pd.read_csv("file:///C:/Users/riley/documents/python%20scripts/maps/popdata.csv",
+                   dtype={"Geoid": str})
 
-app.layout = html.Div([ 
+import plotly.express as px
+
+fig = px.choropleth_mapbox(df, geojson=states, locations='Geoid', featureidkey="properties.GEO_ID",
+                           color='CENSUS2019POP',
+                           color_continuous_scale="Viridis",
+						   hover_name="NAME",
+                           range_color=(0, 39512223),
+                           mapbox_style="carto-positron",
+                           zoom=3, center = {"lat": 37.0902, "lon": -95.7129},
+                           opacity=0.5,
+                           labels={'unemp':'unemployment rate'}
+                          )
+fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+fig.show() //Everything contained in the "fig" variable defines the map, including where it draws its data from.
+
+app.layout = html.Div([ //The layout defines and actually calls all of the below mentioned HTML objects.
     dcc.Dropdown(#//This div is a dropdown containing choices of all 50 US states.
         id='state-choice',
         options=[
