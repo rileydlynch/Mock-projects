@@ -1,0 +1,2 @@
+1. Create place for users to upload their own data file (easy)
+2. Figure out how to make a dataframe with blank values, then allow users to define the values manually
