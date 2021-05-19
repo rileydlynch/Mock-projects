@@ -21,3 +21,11 @@ So for example, if the MarkupSafe package fails to install, then use this comman
 ```python
 pip install MarkupSafe
 ```
+
+6. In order to run the state-map.js file, use the command
+```python
+state-map.js
+```
+
+Type `localhost:8050` into your browser (Firefox or Chrome) and the end result should look like this:
+![image](https://user-images.githubusercontent.com/11321449/118747592-e0b7b480-b88c-11eb-9fdc-5c7de1f0416d.png)
