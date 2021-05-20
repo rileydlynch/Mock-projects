@@ -7,7 +7,7 @@
 ![image](https://user-images.githubusercontent.com/11321449/117343965-717ab180-aed7-11eb-9b60-68c600c77185.png)
 
 
-4.    Then simply enter `python` to enter the Python command prompt. From there, install all of the packages in the [requirements.txt](https://github.com/rileydlynch/Mock-projects/blob/main/Flask-site/requirements.txt) file using this command:
+4.    Then simply enter `python` to enter the Python command prompt. From there, install all of the packages in the [requirements.txt](https://github.com/rileydlynch/Mock-projects/blob/main/Flask-site/requirements.txt) or [requirements-lite.txt](https://github.com/rileydlynch/Mock-projects/blob/main/Flask-site/requirements-lite.txt) file using this command:
 ```python
 pip install -r requirements.txt
 ```
