@@ -1,24 +1,70 @@
 class ParentApp extends React.Component {
   constructor(props) {
     super(props);
+    this.chooseArmy = this.chooseArmy.bind(this);
     this.state = {
-      steps: 0
-    };  
+      steps: 0,
+      UKF: true,
+      USA: true,
+      SU: true,
+      OW: true,
+      Ostheer: true
+    };
+
   }
 
-  genOrder() {
+  chooseArmy(e) {
+    e.preventDefault();
 
+    const option = e.target.elements.armychoice.value.toString(); //can add .trim() if necessary
+    console.log(option);
+    if (option === 'OWInput'){
+      this.setState(() => {
+        return {OW: false, Ostheer: true, SU: true, UKF: true, USA: true};
+      })
+    }
+    if (option === 'OstheerInput'){
+      this.setState(() => {
+        return {OW: true, Ostheer: false, SU: true, UKF: true, USA: true};
+      })
+    }
+    if (option === 'SUInput'){
+      this.setState(() => {
+        return {OW: true, Ostheer: true, SU: false, UKF: true, USA: true};
+      })
+    }
+    if (option === 'UKFInput'){
+      this.setState(() => {
+        return {OW: true, Ostheer: true, SU: true, UKF: false, USA: true};
+      })
+    }
+    if (option === 'USAInput'){
+      this.setState(() => {
+        return {OW: true, Ostheer: true, SU: true, UKF: true, USA: false};
+      })
+    }
   }
 
-  render() {
-        return (
+  render() { //{this.state.army && <this.state.army />}
+    return (
         <div>
-          <UKFInput /><br />
-          <USAInput /><br />
-          <SUInput /><br />
-          <OstheerInput /><br />
-          <OWInput /><br />
+          <form onSubmit={this.chooseArmy}>
+            <select name="armychoice" id="armychoice">
+              <option value='OWInput'>Oberkommando West</option>
+              <option value="OstheerInput">Ostheer</option>
+              <option value="SUInput">Soviet Union</option>
+              <option value="UKFInput">UKF</option>
+              <option value="USAInput">US Forces</option>
+            </select>
+            <button>Choose army</button>
+          </form>
+          {!this.state.OW && <OWInput />}
+          {!this.state.Ostheer && <OstheerInput />}
+          {!this.state.SU && <SUInput />}
+          {!this.state.USA && <USAInput />}
+          {!this.state.UKF && <UKFInput />}
           <button onClick={this.genOrder}>Click here to generate Build Order text and image</button>
+
         </div>
         )
     }
