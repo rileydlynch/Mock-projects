@@ -4,11 +4,11 @@ class ParentApp extends React.Component {
     this.chooseArmy = this.chooseArmy.bind(this);
     this.state = {
       steps: 0,
-      UKF: true,
-      USA: true,
-      SU: true,
-      OW: true,
-      Ostheer: true
+      UKF: 0,
+      USA: 0,
+      SU: 0,
+      OW: 0,
+      Ostheer: 0
     };
 
   }
@@ -19,33 +19,37 @@ class ParentApp extends React.Component {
     const option = e.target.elements.armychoice.value.toString(); //can add .trim() if necessary
     console.log(option);
     if (option === 'OWInput'){
-      this.setState(() => {
-        return {OW: false, Ostheer: true, SU: true, UKF: true, USA: true};
+      this.setState((prevState) => {
+        return {OW: prevState.OW + 1, Ostheer: 0, SU: 0, UKF: 0, USA: 0};
       })
     }
     if (option === 'OstheerInput'){
-      this.setState(() => {
-        return {OW: true, Ostheer: false, SU: true, UKF: true, USA: true};
+      this.setState((prevState, props) => {
+        return {OW: 0, Ostheer: prevState.Ostheer + 1, SU: 0, UKF: 0, USA: 0};//OW: true, Ostheer: false, SU: true, UKF: true, USA: true
       })
     }
     if (option === 'SUInput'){
-      this.setState(() => {
-        return {OW: true, Ostheer: true, SU: false, UKF: true, USA: true};
+      this.setState((prevState, props) => {
+        return {OW: 0, Ostheer: 0, SU: prevState.SU + 1, UKF: 0, USA: 0};
       })
     }
     if (option === 'UKFInput'){
-      this.setState(() => {
-        return {OW: true, Ostheer: true, SU: true, UKF: false, USA: true};
+      this.setState((prevState, props) => {
+        return {OW: 0, Ostheer: 0, SU: 0, UKF: prevState.UKF + 1, USA: 0};
       })
     }
     if (option === 'USAInput'){
-      this.setState(() => {
-        return {OW: true, Ostheer: true, SU: true, UKF: true, USA: false};
+      this.setState((prevState, props) => {
+        return {OW: 0, Ostheer: 0, SU: 0, UKF: 0, USA: prevState.USA + 1};
       })
     }
-  }
+  };
 
-  render() { //{this.state.army && <this.state.army />}
+  nextStep() {
+
+  };
+
+  render() {
     return (
         <div>
           <form onSubmit={this.chooseArmy}>
@@ -58,11 +62,36 @@ class ParentApp extends React.Component {
             </select>
             <button>Choose army</button>
           </form>
-          {!this.state.OW && <OWInput />}
-          {!this.state.Ostheer && <OstheerInput />}
-          {!this.state.SU && <SUInput />}
-          {!this.state.USA && <USAInput />}
-          {!this.state.UKF && <UKFInput />}
+          {this.state.OW > 0 ? <OWInput chooseArmy={this.chooseArmy}/> : null}
+          {this.state.OW > 1 ? <OWInput chooseArmy={this.chooseArmy}/> : null}
+          {this.state.OW > 2 ? <OWInput chooseArmy={this.chooseArmy}/> : null}
+          {this.state.OW > 3 ? <OWInput chooseArmy={this.chooseArmy}/> : null}
+          {this.state.OW > 4 ? <OWInput chooseArmy={this.chooseArmy}/> : null}
+          {this.state.OW > 5 ? <OWInput chooseArmy={this.chooseArmy}/> : null}
+          {this.state.Ostheer > 0 ? <OstheerInput chooseArmy={this.chooseArmy}/> : null}
+          {this.state.Ostheer > 1 ? <OstheerInput chooseArmy={this.chooseArmy}/> : null}
+          {this.state.Ostheer > 2 ? <OstheerInput chooseArmy={this.chooseArmy}/> : null}
+          {this.state.Ostheer > 3 ? <OstheerInput chooseArmy={this.chooseArmy}/> : null}
+          {this.state.Ostheer > 4 ? <OstheerInput chooseArmy={this.chooseArmy}/> : null}
+          {this.state.Ostheer > 5 ? <OstheerInput chooseArmy={this.chooseArmy}/> : null}
+          {this.state.SU > 0 ? <SUInput chooseArmy={this.chooseArmy}/> : null}
+          {this.state.SU > 1 ? <SUInput chooseArmy={this.chooseArmy}/> : null}
+          {this.state.SU > 2 ? <SUInput chooseArmy={this.chooseArmy}/> : null}
+          {this.state.SU > 3 ? <SUInput chooseArmy={this.chooseArmy}/> : null}
+          {this.state.SU > 4 ? <SUInput chooseArmy={this.chooseArmy}/> : null}
+          {this.state.SU > 5 ? <SUInput chooseArmy={this.chooseArmy}/> : null}
+          {this.state.USA > 0 ? <USAInput chooseArmy={this.chooseArmy}/> : null}
+          {this.state.USA > 1 ? <USAInput chooseArmy={this.chooseArmy}/> : null}
+          {this.state.USA > 2 ? <USAInput chooseArmy={this.chooseArmy}/> : null}
+          {this.state.USA > 3 ? <USAInput chooseArmy={this.chooseArmy}/> : null}
+          {this.state.USA > 4 ? <USAInput chooseArmy={this.chooseArmy}/> : null}
+          {this.state.USA > 5 ? <USAInput chooseArmy={this.chooseArmy}/> : null}
+          {this.state.UKF > 0 ? <UKFInput chooseArmy={this.chooseArmy}/> : null}
+          {this.state.UKF > 1 ? <UKFInput chooseArmy={this.chooseArmy}/> : null}
+          {this.state.UKF > 2 ? <UKFInput chooseArmy={this.chooseArmy}/> : null}
+          {this.state.UKF > 3 ? <UKFInput chooseArmy={this.chooseArmy}/> : null}
+          {this.state.UKF > 4 ? <UKFInput chooseArmy={this.chooseArmy}/> : null}
+          {this.state.UKF > 5 ? <UKFInput chooseArmy={this.chooseArmy}/> : null}
           <button onClick={this.genOrder}>Click here to generate Build Order text and image</button>
 
         </div>
@@ -71,11 +100,16 @@ class ParentApp extends React.Component {
 }
 
 class UKFInput extends React.Component {
-    render() {
+  constructor(props) {
+    super(props);
+    // this.chooseArmy = this.chooseArmy.bind(this);
+  }
+  
+  render() {
         return (
             <div>
-                <form>
-                    <input type="text" name="quantity" />
+                <form onSubmit={this.props.chooseArmy}>
+                    <input type="text" name="quantity" placeholder="Create how many?"/>
                     <select name="ukfunits" id="ukfunits">
                       <option value="sniper">.55 cal Armor-Piercing Sniper</option>
                       <option value="aec">AEC</option>
@@ -103,7 +137,7 @@ class USAInput extends React.Component {
       return (
           <div>
               <form>
-                  <input type="text" name="quantity" />
+                  <input type="text" name="quantity" placeholder="Create how many?" />
                   <select name="usaunits" id="usaunits">
                     <option value="ambulance">Ambulance</option>
                     <option value="captain">Captain</option>
@@ -132,7 +166,7 @@ class SUInput extends React.Component {
       return (
           <div>
               <form>
-                  <input type="text" name="quantity" />
+                  <input type="text" name="quantity" placeholder="Create how many?" />
                   <select name="usaunits" id="usaunits">
                     <option value="combengis">Combat Engineers</option>
                     <option value="conscript">Conscripts</option>
@@ -160,7 +194,7 @@ class OstheerInput extends React.Component {
       return (
           <div>
               <form>
-                  <input type="text" name="quantity" />
+                  <input type="text" name="quantity" placeholder="Create how many?" />
                   <select name="usaunits" id="usaunits">
                     <option value="grenadier">Grenadiers</option>
                     <option value="grw34">GrW 34 Mortar Team</option>
@@ -185,7 +219,7 @@ class OWInput extends React.Component {
       return (
           <div>
               <form>
-                  <input type="text" name="quantity" />
+                  <input type="text" name="quantity" placeholder="Create how many?" />
                   <select name="usaunits" id="usaunits">
                     <option value="leig">7.5cm le.IG Infantry Support Gun</option>
                     <option value="kubelwagon">Kubelwagon</option>
