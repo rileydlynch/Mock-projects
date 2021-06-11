@@ -2,6 +2,7 @@ class ParentApp extends React.Component {
   constructor(props) {
     super(props);
     this.chooseArmy = this.chooseArmy.bind(this);
+    this.nextStep = this.nextStep.bind(this);
     this.state = {
       steps: 0,
       UKF: 0,
@@ -10,43 +11,74 @@ class ParentApp extends React.Component {
       OW: 0,
       Ostheer: 0
     };
-
   }
 
   chooseArmy(e) {
     e.preventDefault();
-
+    
     const option = e.target.elements.armychoice.value.toString(); //can add .trim() if necessary
     console.log(option);
+
+    //This section allows creation of the initial input for a particular army.
     if (option === 'OWInput'){
       this.setState((prevState) => {
-        return {OW: prevState.OW + 1, Ostheer: 0, SU: 0, UKF: 0, USA: 0};
+        return {OW: 1, Ostheer: 0, SU: 0, UKF: 0, USA: 0};
       })
     }
     if (option === 'OstheerInput'){
       this.setState((prevState, props) => {
-        return {OW: 0, Ostheer: prevState.Ostheer + 1, SU: 0, UKF: 0, USA: 0};//OW: true, Ostheer: false, SU: true, UKF: true, USA: true
+        return {OW: 0, Ostheer: 1, SU: 0, UKF: 0, USA: 0};
       })
     }
     if (option === 'SUInput'){
       this.setState((prevState, props) => {
-        return {OW: 0, Ostheer: 0, SU: prevState.SU + 1, UKF: 0, USA: 0};
+        return {OW: 0, Ostheer: 0, SU: 1, UKF: 0, USA: 0};
       })
     }
     if (option === 'UKFInput'){
       this.setState((prevState, props) => {
-        return {OW: 0, Ostheer: 0, SU: 0, UKF: prevState.UKF + 1, USA: 0};
+        return {OW: 0, Ostheer: 0, SU: 0, UKF: 1, USA: 0};
       })
     }
     if (option === 'USAInput'){
       this.setState((prevState, props) => {
+        return {OW: 0, Ostheer: 0, SU: 0, UKF: 0, USA: 1};
+      })
+    }
+    console.log(this.state.OW);
+  };
+
+  nextStep(e) {
+    e.preventDefault();
+    const armyname = e.target.elements;
+    console.log(this.state.OW);
+
+    //This section allows user to add additional inputs for a particular army.
+    if (armyname.ostheerunits){
+      this.setState((prevState) => {
+        return {OW: 0, Ostheer: prevState.Ostheer + 1, SU: 0, UKF: 0, USA: 0};
+      })
+    }
+    if (armyname.owunits){
+      this.setState((prevState) => {
+        return {OW: prevState.OW + 1, Ostheer: 0, SU: 0, UKF: 0, USA: 0};
+      })
+    }
+    if (armyname.suunits){
+      this.setState((prevState) => {
+        return {OW: 0, Ostheer: 0, SU: prevState.SU + 1, UKF: 0, USA: 0};
+      })
+    }
+    if (armyname.ukfunits != null){
+      this.setState((prevState) => {
+        return {OW: 0, Ostheer: 0, SU: 0, UKF: prevState.UKF + 1, USA: 0};
+      })
+    }
+    if (armyname.usaunits){
+      this.setState((prevState) => {
         return {OW: 0, Ostheer: 0, SU: 0, UKF: 0, USA: prevState.USA + 1};
       })
     }
-  };
-
-  nextStep() {
-
   };
 
   render() {
@@ -62,36 +94,36 @@ class ParentApp extends React.Component {
             </select>
             <button>Choose army</button>
           </form>
-          {this.state.OW > 0 ? <OWInput chooseArmy={this.chooseArmy}/> : null}
-          {this.state.OW > 1 ? <OWInput chooseArmy={this.chooseArmy}/> : null}
-          {this.state.OW > 2 ? <OWInput chooseArmy={this.chooseArmy}/> : null}
-          {this.state.OW > 3 ? <OWInput chooseArmy={this.chooseArmy}/> : null}
-          {this.state.OW > 4 ? <OWInput chooseArmy={this.chooseArmy}/> : null}
-          {this.state.OW > 5 ? <OWInput chooseArmy={this.chooseArmy}/> : null}
-          {this.state.Ostheer > 0 ? <OstheerInput chooseArmy={this.chooseArmy}/> : null}
-          {this.state.Ostheer > 1 ? <OstheerInput chooseArmy={this.chooseArmy}/> : null}
-          {this.state.Ostheer > 2 ? <OstheerInput chooseArmy={this.chooseArmy}/> : null}
-          {this.state.Ostheer > 3 ? <OstheerInput chooseArmy={this.chooseArmy}/> : null}
-          {this.state.Ostheer > 4 ? <OstheerInput chooseArmy={this.chooseArmy}/> : null}
-          {this.state.Ostheer > 5 ? <OstheerInput chooseArmy={this.chooseArmy}/> : null}
-          {this.state.SU > 0 ? <SUInput chooseArmy={this.chooseArmy}/> : null}
-          {this.state.SU > 1 ? <SUInput chooseArmy={this.chooseArmy}/> : null}
-          {this.state.SU > 2 ? <SUInput chooseArmy={this.chooseArmy}/> : null}
-          {this.state.SU > 3 ? <SUInput chooseArmy={this.chooseArmy}/> : null}
-          {this.state.SU > 4 ? <SUInput chooseArmy={this.chooseArmy}/> : null}
-          {this.state.SU > 5 ? <SUInput chooseArmy={this.chooseArmy}/> : null}
-          {this.state.USA > 0 ? <USAInput chooseArmy={this.chooseArmy}/> : null}
-          {this.state.USA > 1 ? <USAInput chooseArmy={this.chooseArmy}/> : null}
-          {this.state.USA > 2 ? <USAInput chooseArmy={this.chooseArmy}/> : null}
-          {this.state.USA > 3 ? <USAInput chooseArmy={this.chooseArmy}/> : null}
-          {this.state.USA > 4 ? <USAInput chooseArmy={this.chooseArmy}/> : null}
-          {this.state.USA > 5 ? <USAInput chooseArmy={this.chooseArmy}/> : null}
-          {this.state.UKF > 0 ? <UKFInput chooseArmy={this.chooseArmy}/> : null}
-          {this.state.UKF > 1 ? <UKFInput chooseArmy={this.chooseArmy}/> : null}
-          {this.state.UKF > 2 ? <UKFInput chooseArmy={this.chooseArmy}/> : null}
-          {this.state.UKF > 3 ? <UKFInput chooseArmy={this.chooseArmy}/> : null}
-          {this.state.UKF > 4 ? <UKFInput chooseArmy={this.chooseArmy}/> : null}
-          {this.state.UKF > 5 ? <UKFInput chooseArmy={this.chooseArmy}/> : null}
+          {this.state.OW > 0 ? <OWInput nextStep={this.nextStep}/> : null}
+          {this.state.OW > 1 ? <OWInput nextStep={this.nextStep}/> : null}
+          {this.state.OW > 2 ? <OWInput nextStep={this.nextStep}/> : null}
+          {this.state.OW > 3 ? <OWInput nextStep={this.nextStep}/> : null}
+          {this.state.OW > 4 ? <OWInput nextStep={this.nextStep}/> : null}
+          {this.state.OW > 5 ? <OWInput nextStep={this.nextStep}/> : null}
+          {this.state.Ostheer > 0 ? <OstheerInput nextStep={this.nextStep}/> : null}
+          {this.state.Ostheer > 1 ? <OstheerInput nextStep={this.nextStep}/> : null}
+          {this.state.Ostheer > 2 ? <OstheerInput nextStep={this.nextStep}/> : null}
+          {this.state.Ostheer > 3 ? <OstheerInput nextStep={this.nextStep}/> : null}
+          {this.state.Ostheer > 4 ? <OstheerInput nextStep={this.nextStep}/> : null}
+          {this.state.Ostheer > 5 ? <OstheerInput nextStep={this.nextStep}/> : null}
+          {this.state.SU > 0 ? <SUInput nextStep={this.nextStep}/> : null}
+          {this.state.SU > 1 ? <SUInput nextStep={this.nextStep}/> : null}
+          {this.state.SU > 2 ? <SUInput nextStep={this.nextStep}/> : null}
+          {this.state.SU > 3 ? <SUInput nextStep={this.nextStep}/> : null}
+          {this.state.SU > 4 ? <SUInput nextStep={this.nextStep}/> : null}
+          {this.state.SU > 5 ? <SUInput nextStep={this.nextStep}/> : null}
+          {this.state.USA > 0 ? <USAInput nextStep={this.nextStep}/> : null}
+          {this.state.USA > 1 ? <USAInput nextStep={this.nextStep}/> : null}
+          {this.state.USA > 2 ? <USAInput nextStep={this.nextStep}/> : null}
+          {this.state.USA > 3 ? <USAInput nextStep={this.nextStep}/> : null}
+          {this.state.USA > 4 ? <USAInput nextStep={this.nextStep}/> : null}
+          {this.state.USA > 5 ? <USAInput nextStep={this.nextStep}/> : null}
+          {this.state.UKF > 0 ? <UKFInput nextStep={this.nextStep}/> : null}
+          {this.state.UKF > 1 ? <UKFInput nextStep={this.nextStep}/> : null}
+          {this.state.UKF > 2 ? <UKFInput nextStep={this.nextStep}/> : null}
+          {this.state.UKF > 3 ? <UKFInput nextStep={this.nextStep}/> : null}
+          {this.state.UKF > 4 ? <UKFInput nextStep={this.nextStep}/> : null}
+          {this.state.UKF > 5 ? <UKFInput nextStep={this.nextStep}/> : null}
           <button onClick={this.genOrder}>Click here to generate Build Order text and image</button>
 
         </div>
@@ -108,7 +140,7 @@ class UKFInput extends React.Component {
   render() {
         return (
             <div>
-                <form onSubmit={this.props.chooseArmy}>
+                <form onSubmit={this.props.nextStep}>
                     <input type="text" name="quantity" placeholder="Create how many?"/>
                     <select name="ukfunits" id="ukfunits">
                       <option value="sniper">.55 cal Armor-Piercing Sniper</option>
@@ -136,7 +168,7 @@ class USAInput extends React.Component {
   render() {
       return (
           <div>
-              <form>
+              <form onSubmit={this.props.nextStep}>
                   <input type="text" name="quantity" placeholder="Create how many?" />
                   <select name="usaunits" id="usaunits">
                     <option value="ambulance">Ambulance</option>
@@ -165,9 +197,9 @@ class SUInput extends React.Component {
   render() {
       return (
           <div>
-              <form>
+              <form onSubmit={this.props.nextStep}>
                   <input type="text" name="quantity" placeholder="Create how many?" />
-                  <select name="usaunits" id="usaunits">
+                  <select name="suunits" id="suunits">
                     <option value="combengis">Combat Engineers</option>
                     <option value="conscript">Conscripts</option>
                     <option value="guards">Guards Infantry</option>
@@ -193,9 +225,9 @@ class OstheerInput extends React.Component {
   render() {
       return (
           <div>
-              <form>
+              <form onSubmit={this.props.nextStep}>
                   <input type="text" name="quantity" placeholder="Create how many?" />
-                  <select name="usaunits" id="usaunits">
+                  <select name="ostheerunits" id="ostheerunits">
                     <option value="grenadier">Grenadiers</option>
                     <option value="grw34">GrW 34 Mortar Team</option>
                     <option value="mg42">MG42 Machine Gun</option>
@@ -218,9 +250,9 @@ class OWInput extends React.Component {
   render() {
       return (
           <div>
-              <form>
+              <form onSubmit={this.props.nextStep}>
                   <input type="text" name="quantity" placeholder="Create how many?" />
-                  <select name="usaunits" id="usaunits">
+                  <select name="owunits" id="owunits">
                     <option value="leig">7.5cm le.IG Infantry Support Gun</option>
                     <option value="kubelwagon">Kubelwagon</option>
                     <option value="luchs">Panzer II Luchs</option>
