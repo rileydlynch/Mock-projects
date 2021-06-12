@@ -4,12 +4,18 @@ class ParentApp extends React.Component {
     this.chooseArmy = this.chooseArmy.bind(this);
     this.nextStep = this.nextStep.bind(this);
     this.state = {
-      steps: 0,
+      steps: 1,
       UKF: 0,
       USA: 0,
       SU: 0,
       OW: 0,
-      Ostheer: 0
+      Ostheer: 0,
+      unit1: '',
+      unit2: '',
+      unit3: '',
+      unit4: '',
+      unit5: '',
+      unit6: ''
     };
   }
 
@@ -51,33 +57,41 @@ class ParentApp extends React.Component {
   nextStep(e) {
     e.preventDefault();
     const armyname = e.target.elements;
-    console.log(this.state.OW);
+    var chosenUnit =  e.target.elements.owunits.value.toString();
+    var unitNumber = 'unit' + this.state.steps
+    // console.log(unitNumber)
+    console.log(chosenUnit)
 
     //This section allows user to add additional inputs for a particular army.
     if (armyname.ostheerunits){
       this.setState((prevState) => {
-        return {OW: 0, Ostheer: prevState.Ostheer + 1, SU: 0, UKF: 0, USA: 0};
+        return {OW: 0, Ostheer: prevState.Ostheer + 1, SU: 0, UKF: 0, USA: 0, steps: prevState.steps + 1};
       })
+      console.log('The Ostheer state count is: ' + this.state.Ostheer)
     }
     if (armyname.owunits){
       this.setState((prevState) => {
-        return {OW: prevState.OW + 1, Ostheer: 0, SU: 0, UKF: 0, USA: 0};
+        return {OW: prevState.OW + 1, Ostheer: 0, SU: 0, UKF: 0, USA: 0, steps: prevState.steps + 1, unitNumber: chosenUnit};
       })
+      console.log('The Oberkommando West state count is: ' + this.state.OW)
     }
     if (armyname.suunits){
       this.setState((prevState) => {
-        return {OW: 0, Ostheer: 0, SU: prevState.SU + 1, UKF: 0, USA: 0};
+        return {OW: 0, Ostheer: 0, SU: prevState.SU + 1, UKF: 0, USA: 0, steps: prevState.steps + 1};
       })
+      console.log('The Soviet Union state count is: ' + this.state.SU)
     }
     if (armyname.ukfunits != null){
       this.setState((prevState) => {
-        return {OW: 0, Ostheer: 0, SU: 0, UKF: prevState.UKF + 1, USA: 0};
+        return {OW: 0, Ostheer: 0, SU: 0, UKF: prevState.UKF + 1, USA: 0, steps: prevState.steps + 1};
       })
+      console.log('The UKF state count is: ' + this.state.UKF)
     }
     if (armyname.usaunits){
       this.setState((prevState) => {
-        return {OW: 0, Ostheer: 0, SU: 0, UKF: 0, USA: prevState.USA + 1};
+        return {OW: 0, Ostheer: 0, SU: 0, UKF: 0, USA: prevState.USA + 1, steps: prevState.steps + 1};
       })
+      console.log('The USA state count is: ' + this.state.USA)
     }
   };
 
@@ -124,6 +138,14 @@ class ParentApp extends React.Component {
           {this.state.UKF > 3 ? <UKFInput nextStep={this.nextStep}/> : null}
           {this.state.UKF > 4 ? <UKFInput nextStep={this.nextStep}/> : null}
           {this.state.UKF > 5 ? <UKFInput nextStep={this.nextStep}/> : null}
+          <div>
+            {this.state.steps > 0 ? <ImgOutput unit={this.state.unit1} /> : null}
+            {this.state.steps > 1 ? <ImgOutput unit={this.state.unit2} /> : null}
+            {this.state.steps > 2 ? <ImgOutput unit={this.state.unit3} /> : null}
+            {this.state.steps > 3 ? <ImgOutput unit={this.state.unit4} /> : null}
+            {this.state.steps > 4 ? <ImgOutput unit={this.state.unit5} /> : null}
+            {this.state.steps > 5 ? <ImgOutput unit={this.state.unit6} /> : null}
+          </div>
           <button onClick={this.genOrder}>Click here to generate Build Order text and image</button>
 
         </div>
@@ -272,5 +294,23 @@ class OWInput extends React.Component {
       )
   }
 }
+
+class ImgOutput extends React.Component {
+  constructor(props){
+    super(props)
+  }
+
+  render() {
+    return (
+    <div>
+      <h4>{this.props.unit}</h4>
+      <figure>
+        <img src="https://i.imgur.com/nOvrd9j.png" />
+        <figcaption >Raktenwerfer</figcaption>
+      </figure>
+    </div>
+  )}
+
+  }
 
 ReactDOM.render(<ParentApp />,document.getElementById('app'))
