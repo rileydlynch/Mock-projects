@@ -28,7 +28,60 @@ class ParentApp extends React.Component {
       'SdKfz 251/20 Infrared Half-track': 'https://i.imgur.com/ywwxiUX.png',
       'Sturmpioneers': 'https://i.imgur.com/gtTBLL6.png',
       'sWS Supply Half-track': 'https://i.imgur.com/lFbyGeN.png',
-      'Volksgrenadiers': 'https://i.imgur.com/0Dl4GJi.png'
+      'Volksgrenadiers': 'https://i.imgur.com/0Dl4GJi.png',
+      'Combat Engineers': 'https://i.imgur.com/Fsjxiog.png',
+      'Conscripts': 'https://i.imgur.com/8NuaQhh.png',
+      'Guards Infantry': 'https://i.imgur.com/H0oHsXv.png',
+      'M1910 Maxim Machine Gun': 'https://i.imgur.com/VzofTPL.png',
+      'M3A1 Scout Car': 'https://i.imgur.com/8vZKKdF.png',
+      'M5 Half-track': 'https://i.imgur.com/OnPBzcO.png',
+      'Penal Battalion': 'https://i.imgur.com/cp3PUl1.png',
+      'PM-41 82mm Mortar Team': 'https://i.imgur.com/GRRtiIT.png',
+      'HM38 120mm Mortar Team': 'https://i.imgur.com/GRRtiIT.png',
+      'Scout Sniper': 'https://i.imgur.com/btjrHfX.png',
+      'Shock Infantry': 'https://i.imgur.com/X5iAriA.png',
+      'SU-76M Assault Gun': 'https://i.imgur.com/PpuVc9A.png',
+      'T-70 Light Tank': 'https://i.imgur.com/DkFM03U.png',
+      'ZiS-3 76mm Divisional Field Gun': 'https://i.imgur.com/hevO2vD.png',
+      'Grenadiers': 'https://i.imgur.com/k6KOVPS.png',
+      'GrW 34 Mortar Team': 'https://i.imgur.com/ok0YoC0.png',
+      'MG42 Machine Gun': 'https://i.imgur.com/c0c89Hw.png',
+      'Pak 40 AT Gun': 'https://i.imgur.com/PbEhVYB.png',
+      'Panzergrenadiers': 'https://i.imgur.com/J2wWqh2.png',
+      'Pioneers': 'https://i.imgur.com/kkiNEOT.png',
+      'SdKfz 222 Scout Car': 'https://i.imgur.com/zt2av25.png',
+      'SdKfz 250/7 Mortar Half-track': 'https://i.imgur.com/M24eX0s.png',
+      'SdKfz 250 Half-track': 'https://i.imgur.com/M24eX0s.png',
+      'SdKfz 251 Half-track': 'https://i.imgur.com/tMKK426.png',
+      'Ostheer Sniper': 'https://i.imgur.com/fsCkmky.png',
+      '.55 cal Armor-Piercing Sniper': 'https://i.imgur.com/DFO7raw.png',
+      'AEC': 'https://i.imgur.com/2yYCDn8.png',
+      'Assault Infantry': 'https://i.imgur.com/a8PPWHa.png',
+      'Assault Officer': 'https://i.imgur.com/8usBLqz.png',
+      'Commandos': 'https://i.imgur.com/TuFPW2E.png',
+      'Engineer Recovery Squad': 'https://i.imgur.com/BENXibo.png',
+      'Royal Engineers': 'https://i.imgur.com/BENXibo.png',
+      'Infantry Squad': 'https://i.imgur.com/YdDmNMv.png',
+      'M1 81mm Mortar Team': 'https://i.imgur.com/JgIKxw3.png',
+      'QF 6-pounder AT gun': 'https://i.imgur.com/bIq2u8S.png',
+      'Tank Hunter Infantry': 'https://i.imgur.com/YdDmNMv.png',
+      'Universal Carrier': 'https://i.imgur.com/zj5kBmD.png',
+      'Vickers Heavy Machine Gun': 'https://i.imgur.com/CCoA1kx.png',
+      'Ambulance': 'https://i.imgur.com/mclegG8.png',
+      'Assault Engineers': 'https://i.imgur.com/PBLdFDF.png',
+      'Captain': 'https://i.imgur.com/fVpNrG9.png',
+      'Lieutenant': 'https://i.imgur.com/UKnEXKE.png',
+      'M1 57mm AT gun': 'https://i.imgur.com/4HmEzIJ.png',
+      'M15A1 AA Half-track': 'https://i.imgur.com/65ekUma.png',
+      'M20 Utility Car': 'https://i.imgur.com/VRL2kwR.png',
+      'M2HB .50 cal Machine Gun': 'https://i.imgur.com/dSWDRtR.png',
+      'M5A1 Stuart': 'https://i.imgur.com/jc3a1jg.png',
+      'Mortar Team': 'https://i.imgur.com/idACEZY.png',
+      'Pack Howitzer': 'https://i.imgur.com/qKJzCKz.png',
+      'Pathfinders': 'https://i.imgur.com/65zdTdi.png',
+      'Rangers': 'https://i.imgur.com/svCe38R.png',
+      'Rear Echelon': 'https://i.imgur.com/jvS1t4D.png',
+      'Rifleman': 'https://i.imgur.com/zRpDi6V.png',
     };
   }
 
@@ -41,27 +94,27 @@ class ParentApp extends React.Component {
     //This section allows creation of the initial input for a particular army.
     if (option === 'OWInput'){
       this.setState((prevState) => {
-        return {OW: 1, Ostheer: 0, SU: 0, UKF: 0, USA: 0};
+        return {OW: 1, Ostheer: 0, SU: 0, UKF: 0, USA: 0, unit1: '', unit2: '', unit3: '', unit4: '', unit5: '', unit6: '', steps: 1};
       })
     }
     if (option === 'OstheerInput'){
       this.setState((prevState, props) => {
-        return {OW: 0, Ostheer: 1, SU: 0, UKF: 0, USA: 0};
+        return {OW: 0, Ostheer: 1, SU: 0, UKF: 0, USA: 0, unit1: '', unit2: '', unit3: '', unit4: '', unit5: '', unit6: '', steps: 1};
       })
     }
     if (option === 'SUInput'){
       this.setState((prevState, props) => {
-        return {OW: 0, Ostheer: 0, SU: 1, UKF: 0, USA: 0};
+        return {OW: 0, Ostheer: 0, SU: 1, UKF: 0, USA: 0, unit1: '', unit2: '', unit3: '', unit4: '', unit5: '', unit6: '', steps: 1};
       })
     }
     if (option === 'UKFInput'){
       this.setState((prevState, props) => {
-        return {OW: 0, Ostheer: 0, SU: 0, UKF: 1, USA: 0};
+        return {OW: 0, Ostheer: 0, SU: 0, UKF: 1, USA: 0, unit1: '', unit2: '', unit3: '', unit4: '', unit5: '', unit6: '', steps: 1};
       })
     }
     if (option === 'USAInput'){
       this.setState((prevState, props) => {
-        return {OW: 0, Ostheer: 0, SU: 0, UKF: 0, USA: 1};
+        return {OW: 0, Ostheer: 0, SU: 0, UKF: 0, USA: 1, unit1: '', unit2: '', unit3: '', unit4: '', unit5: '', unit6: '', steps: 1};
       })
     }
     console.log(this.state.OW);
@@ -112,8 +165,8 @@ class ParentApp extends React.Component {
   };
 
   render() {
-
     return (
+      
         <div>
           <form onSubmit={this.chooseArmy}>
             <select name="armychoice" id="armychoice">
@@ -157,15 +210,15 @@ class ParentApp extends React.Component {
             {this.state.UKF > 4 ? <UKFInput nextStep={this.nextStep}/> : null}
             {this.state.UKF > 5 ? <UKFInput nextStep={this.nextStep}/> : null}
           </div>
-          <div>
-            {this.state.steps > 0 ? <ImgOutput imgurl = {this.state[this.state.unit1]} unit={this.state.unit1} /> : null}
-            {this.state.steps > 1 ? <ImgOutput imgurl = {this.state[this.state.unit2]} unit={this.state.unit2} /> : null}
-            {this.state.steps > 2 ? <ImgOutput imgurl = {this.state[this.state.unit3]} unit={this.state.unit3} /> : null}
-            {this.state.steps > 3 ? <ImgOutput imgurl = {this.state[this.state.unit4]} unit={this.state.unit4} /> : null}
-            {this.state.steps > 4 ? <ImgOutput imgurl = {this.state[this.state.unit5]} unit={this.state.unit5} /> : null}
-            {this.state.steps > 5 ? <ImgOutput imgurl = {this.state[this.state.unit6]} unit={this.state.unit6} /> : null}
+          <div className='div-fixed'>
+            {this.state.steps > 0 ? <ImgOutput steps = {this.state.steps} imgurl = {this.state[this.state.unit1]} unit={this.state.unit1} /> : null}
+            {this.state.steps > 1 ? <ImgOutput steps = {this.state.steps} imgurl = {this.state[this.state.unit2]} unit={this.state.unit2} /> : null}
+            {this.state.steps > 2 ? <ImgOutput steps = {this.state.steps} imgurl = {this.state[this.state.unit3]} unit={this.state.unit3} /> : null}
+            {this.state.steps > 3 ? <ImgOutput steps = {this.state.steps} imgurl = {this.state[this.state.unit4]} unit={this.state.unit4} /> : null}
+            {this.state.steps > 4 ? <ImgOutput steps = {this.state.steps} imgurl = {this.state[this.state.unit5]} unit={this.state.unit5} /> : null}
+            {this.state.steps > 5 ? <ImgOutput steps = {this.state.steps} imgurl = {this.state[this.state.unit6]} unit={this.state.unit6} /> : null}
           </div>
-          <button onClick={this.genOrder}>Click here to generate Build Order text and image</button>
+          {/* <button onClick={this.genOrder}>Click here to generate Build Order text and image</button> */}
 
         </div>
         )
@@ -175,7 +228,6 @@ class ParentApp extends React.Component {
 class UKFInput extends React.Component {
   constructor(props) {
     super(props);
-    // this.chooseArmy = this.chooseArmy.bind(this);
   }
   
   render() {
@@ -190,9 +242,9 @@ class UKFInput extends React.Component {
                       <option value="Assault Officer">Assault Officer</option>
                       <option value="Commandos">Commandos</option>
                       <option value="Engineer Recovery Squad">Engineer Recovery Squad</option>
-                      <option value="Engineers">Engineers</option>
+                      <option value="Royal Engineers">Royal Engineers</option>
                       <option value="Infantry Squad">Infantry Squad</option>
-                      <option value="Mortar Team">Mortar Team</option>
+                      <option value="M1 81mm Mortar Team">M1 81mm Mortar Team</option>
                       <option value="QF 6-pounder AT gun">QF 6-pounder AT gun</option>
                       <option value="Tank Hunter Infantry">Tank Hunter Infantry</option>
                       <option value="Universal Carrier">Universal Carrier</option>
@@ -213,17 +265,18 @@ class USAInput extends React.Component {
                   <input type="text" name="quantity" placeholder="Create how many?" />
                   <select name="usaunits" id="usaunits">
                     <option value="Ambulance">Ambulance</option>
+                    <option value="Assault Engineers">Assault Engineers</option>
                     <option value="Captain">Captain</option>
-                    <option value="Combat Engineers">Combat Engineers</option>
-                    <option value="Half-track">Half-track</option>
                     <option value="Lieutenant">Lieutenant</option>
                     <option value="M1 57mm AT gun">M1 57mm AT gun</option>
-                    <option value="M1A1 Stuart">M1A1 Stuart</option>
+                    <option value="M15A1 AA Half-track">M15A1 AA Half-track</option>
                     <option value="M20 Utility Car">M20 Utility Car</option>
                     <option value="M2HB .50 cal Machine Gun">M2HB .50 cal Machine Gun</option>
+                    <option value="M5A1 Stuart">M5A1 Stuart</option>
                     <option value="Mortar Team">Mortar Team</option>
                     <option value="Pack Howitzer">Pack Howitzer</option>
                     <option value="Pathfinders">Pathfinders</option>
+                    <option value="Rangers">Rangers</option>
                     <option value="Rear Echelon">Rear Echelon</option>
                     <option value="Rifleman">Rifleman</option>
                   </select>
@@ -249,6 +302,7 @@ class SUInput extends React.Component {
                     <option value="M5 Half-track">M5 Half-track</option>
                     <option value="Penal Battalion">Penal Battalion</option>
                     <option value="PM-41 82mm Mortar Team">PM-41 82mm Mortar Team</option>
+                    <option value="HM38 120mm Mortar Team">HM38 120mm Mortar Team</option>
                     <option value="Scout Sniper">Scout Sniper</option>
                     <option value="Shock Infantry">Shock Infantry</option>
                     <option value="SU-76M Assault Gun">SU-76M Assault Gun</option>
@@ -277,8 +331,9 @@ class OstheerInput extends React.Component {
                     <option value="Pioneers">Pioneers</option>
                     <option value="SdKfz 222 Scout Car">SdKfz 222 Scout Car</option>
                     <option value="SdKfz 250/7 Mortar Half-track">SdKfz 250/7 Mortar Half-track</option>
-                    <option value="SdKfz Half-track">SdKfz Half-track</option>
-                    <option value="Sniper">Sniper</option>
+                    <option value="SdKfz 250 Half-track">SdKfz 250 Half-track</option>
+                    <option value="SdKfz 251 Half-track">SdKfz 251 Half-track</option>
+                    <option value="Ostheer Sniper">Ostheer Sniper</option>
                   </select>
                   <button>Next step</button>
               </form>
@@ -323,9 +378,8 @@ class ImgOutput extends React.Component {
     return (
     <div>
       <h4>{this.props.unit}</h4>
-      <figure>
          <img src={this.props.imgurl} />
-      </figure>
+         {this.props.steps > 1 ? <img src='https://i.imgur.com/FXmXMtn.png' /> : null}
     </div>
   )}
 
