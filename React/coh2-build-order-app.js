@@ -210,7 +210,7 @@ class ParentApp extends React.Component {
             {this.state.UKF > 4 ? <UKFInput nextStep={this.nextStep}/> : null}
             {this.state.UKF > 5 ? <UKFInput nextStep={this.nextStep}/> : null}
           </div>
-          <div className='div-fixed'>
+          <div  className='div-fixed'>
             {this.state.steps > 0 ? <ImgOutput steps = {this.state.steps} imgurl = {this.state[this.state.unit1]} unit={this.state.unit1} /> : null}
             {this.state.steps > 1 ? <ImgOutput steps = {this.state.steps} imgurl = {this.state[this.state.unit2]} unit={this.state.unit2} /> : null}
             {this.state.steps > 2 ? <ImgOutput steps = {this.state.steps} imgurl = {this.state[this.state.unit3]} unit={this.state.unit3} /> : null}
@@ -376,10 +376,12 @@ class ImgOutput extends React.Component {
 
   render() {
     return (
-    <div>
-      <h4>{this.props.unit}</h4>
-         <img src={this.props.imgurl} />
-         {this.props.steps > 1 ? <img src='https://i.imgur.com/FXmXMtn.png' /> : null}
+    <div  className='div-fixed'>
+      <div>
+        <h3>{this.props.unit}</h3>
+          <img src={this.props.imgurl} />
+      </div>
+      <div className='bullet'>{this.props.steps > 1 ? <img src='https://i.imgur.com/FXmXMtn.png' /> : null}</div>
     </div>
   )}
 
