@@ -16,6 +16,12 @@ class ParentApp extends React.Component {
       unit4: '',
       unit5: '',
       unit6: '',
+      quantity1: 0,
+      quantity2: 0,
+      quantity3: 0,
+      quantity4: 0,
+      quantity5: 0,
+      quantity6: 0,
       currentunit: '',
       '7.5cm le.IG Infantry Support Gun': 'https://i.imgur.com/jeBHdas.png',
       'Kubelwagon': 'https://i.imgur.com/ltYDgug.png',
@@ -125,40 +131,51 @@ class ParentApp extends React.Component {
     const armyname = e.target.elements;
     // var chosenUnit =  e.target.elements.owunits.value.toString();
     var unitNumber = 'unit' + this.state.steps
+    var quantityNumber = 'quantity' + this.state.steps
 
     //This section allows user to add additional inputs for a particular army.
     if (armyname.ostheerunits){
       var chosenUnit =  e.target.elements.ostheerunits.value.toString();
+      var chosenQuantity = e.target.elements.quantity.value;
       this.setState((prevState) => {
-        return {OW: 0, Ostheer: prevState.Ostheer + 1, SU: 0, UKF: 0, USA: 0, steps: prevState.steps + 1, [unitNumber]: chosenUnit, currentunit: [unitNumber]};
+        return {OW: 0, Ostheer: prevState.Ostheer + 1, SU: 0, UKF: 0, USA: 0, steps: prevState.steps + 1, [unitNumber]: chosenUnit,
+          currentunit: [unitNumber],[quantityNumber]: chosenQuantity};
       })
-      console.log('The Ostheer state count is: ' + this.state.Ostheer)
+      console.log('The Ostheer state count is: ' + this.state.Ostheer);
     }
     if (armyname.owunits){
       var chosenUnit =  e.target.elements.owunits.value.toString();
+      var chosenQuantity = e.target.elements.quantity.value;
       this.setState((prevState) => {
-        return {OW: prevState.OW + 1, Ostheer: 0, SU: 0, UKF: 0, USA: 0, steps: prevState.steps + 1, [unitNumber]: chosenUnit};
+        return {OW: prevState.OW + 1, Ostheer: 0, SU: 0, UKF: 0, USA: 0, steps: prevState.steps + 1, [unitNumber]: chosenUnit,
+          [quantityNumber]: chosenQuantity};
       })
       console.log('The Oberkommando West state count is: ' + this.state.OW)
     }
     if (armyname.suunits){
       var chosenUnit =  e.target.elements.suunits.value.toString();
+      var chosenQuantity = e.target.elements.quantity.value;
       this.setState((prevState) => {
-        return {OW: 0, Ostheer: 0, SU: prevState.SU + 1, UKF: 0, USA: 0, steps: prevState.steps + 1, [unitNumber]: chosenUnit, currentunit: [unitNumber]};
+        return {OW: 0, Ostheer: 0, SU: prevState.SU + 1, UKF: 0, USA: 0, steps: prevState.steps + 1, [unitNumber]: chosenUnit,
+          currentunit: [unitNumber],[quantityNumber]: chosenQuantity};
       })
       console.log('The Soviet Union state count is: ' + this.state.SU)
     }
     if (armyname.ukfunits != null){
       var chosenUnit =  e.target.elements.ukfunits.value.toString();
+      var chosenQuantity = e.target.elements.quantity.value;
       this.setState((prevState) => {
-        return {OW: 0, Ostheer: 0, SU: 0, UKF: prevState.UKF + 1, USA: 0, steps: prevState.steps + 1, [unitNumber]: chosenUnit, currentunit: [unitNumber]};
+        return {OW: 0, Ostheer: 0, SU: 0, UKF: prevState.UKF + 1, USA: 0, steps: prevState.steps + 1, [unitNumber]: chosenUnit,
+          currentunit: [unitNumber],[quantityNumber]: chosenQuantity};
       })
       console.log('The UKF state count is: ' + this.state.UKF)
     }
     if (armyname.usaunits){
       var chosenUnit =  e.target.elements.usaunits.value.toString();
+      var chosenQuantity = e.target.elements.quantity.value;
       this.setState((prevState) => {
-        return {OW: 0, Ostheer: 0, SU: 0, UKF: 0, USA: prevState.USA + 1, steps: prevState.steps + 1, [unitNumber]: chosenUnit, currentunit: [unitNumber]};
+        return {OW: 0, Ostheer: 0, SU: 0, UKF: 0, USA: prevState.USA + 1, steps: prevState.steps + 1, [unitNumber]: chosenUnit,
+          currentunit: [unitNumber],[quantityNumber]: chosenQuantity};
       })
       console.log('The USA state count is: ' + this.state.USA)
     }
@@ -168,6 +185,7 @@ class ParentApp extends React.Component {
     return (
       
         <div>
+          <div className='header-fixed'><h1>COMPANY </h1><h4>OF</h4><h1> HEROES 2</h1></div>
           <form onSubmit={this.chooseArmy}>
             <select name="armychoice" id="armychoice">
               <option value='OWInput'>Oberkommando West</option>
@@ -210,13 +228,19 @@ class ParentApp extends React.Component {
             {this.state.UKF > 4 ? <UKFInput nextStep={this.nextStep}/> : null}
             {this.state.UKF > 5 ? <UKFInput nextStep={this.nextStep}/> : null}
           </div>
-          <div  className='div-fixed'>
-            {this.state.steps > 0 ? <ImgOutput steps = {this.state.steps} imgurl = {this.state[this.state.unit1]} unit={this.state.unit1} /> : null}
-            {this.state.steps > 1 ? <ImgOutput steps = {this.state.steps} imgurl = {this.state[this.state.unit2]} unit={this.state.unit2} /> : null}
-            {this.state.steps > 2 ? <ImgOutput steps = {this.state.steps} imgurl = {this.state[this.state.unit3]} unit={this.state.unit3} /> : null}
-            {this.state.steps > 3 ? <ImgOutput steps = {this.state.steps} imgurl = {this.state[this.state.unit4]} unit={this.state.unit4} /> : null}
-            {this.state.steps > 4 ? <ImgOutput steps = {this.state.steps} imgurl = {this.state[this.state.unit5]} unit={this.state.unit5} /> : null}
-            {this.state.steps > 5 ? <ImgOutput steps = {this.state.steps} imgurl = {this.state[this.state.unit6]} unit={this.state.unit6} /> : null}
+          <div className='ImgOutput-cont'>
+            {this.state.steps > 0 ? <ImgOutput steps={this.state.steps} imgurl={this.state[this.state.unit1]}
+            unit={this.state.unit1} quant={this.state.quantity1} /> : null}
+            {this.state.steps > 1 ? <ImgOutput steps = {this.state.steps} imgurl = {this.state[this.state.unit2]}
+            unit={this.state.unit2} quant={this.state.quantity2} /> : null}
+            {this.state.steps > 2 ? <ImgOutput steps = {this.state.steps} imgurl = {this.state[this.state.unit3]}
+            unit={this.state.unit3} quant={this.state.quantity3} /> : null}
+            {this.state.steps > 3 ? <ImgOutput steps = {this.state.steps} imgurl = {this.state[this.state.unit4]}
+            unit={this.state.unit4} quant={this.state.quantity4} /> : null}
+            {this.state.steps > 4 ? <ImgOutput steps = {this.state.steps} imgurl = {this.state[this.state.unit5]}
+            unit={this.state.unit5} quant={this.state.quantity5} /> : null}
+            {this.state.steps > 5 ? <ImgOutput steps = {this.state.steps} imgurl = {this.state[this.state.unit6]}
+            unit={this.state.unit6} quant={this.state.quantity6} /> : null}
           </div>
           {/* <button onClick={this.genOrder}>Click here to generate Build Order text and image</button> */}
 
@@ -376,10 +400,11 @@ class ImgOutput extends React.Component {
 
   render() {
     return (
-    <div  className='div-fixed'>
+    <div className='ImgOutput-cont'>
       <div>
         <h3>{this.props.unit}</h3>
-          <img src={this.props.imgurl} />
+        <img src={this.props.imgurl} />
+        {this.props.steps > 1 ? <h2>{this.props.quant}</h2> : null}
       </div>
       <div className='bullet'>{this.props.steps > 1 ? <img src='https://i.imgur.com/FXmXMtn.png' /> : null}</div>
     </div>
