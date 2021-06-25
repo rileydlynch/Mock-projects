@@ -401,12 +401,14 @@ class ImgOutput extends React.Component {
   render() {
     return (
     <div className='ImgOutput-cont'>
-      <div>
+      <div className='subflex'>
         <h3>{this.props.unit}</h3>
+        <div class="break" />
         <img src={this.props.imgurl} />
+        <div class="break" />
         {this.props.steps > 1 ? <h2>{this.props.quant}</h2> : null}
       </div>
-      <div className='bullet'>{this.props.steps > 1 ? <img src='https://i.imgur.com/FXmXMtn.png' /> : null}</div>
+      <div className='bullet'>{this.props.steps > 1 ? <img src='https://i.imgur.com/yESOgwU.png' /> : null}</div>
     </div>
   )}
 
