@@ -1,0 +1,20 @@
+{
+  "name": "build-order-builder",
+  "version": "1.0.0",
+  "description": "Makes beautiful build orders for strategy games",
+  "main": "coh2-build-order-app.js",
+  "dependencies": {
+    "gh-pages": "^3.2.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "deploy": "gh-pages -d /tree/main/React"
+  },
+  "repository": {
+    "type": "git",
+    "url": "C:\\Users\\riley\\Documents\\Github\\Mock-projects\\React"
+  },
+  "author": "Riley Lynch",
+  "license": "ISC",
+  "homepage": "https://rileydlynch.github.io/Mock-projects"
+}
