@@ -2,5 +2,5 @@ This is a demo website which includes a MySQL database. The initial purpose was 
 
 1. Boot up your Node.js instance, clone this repository, and use *npm install* to install all of the packages.
 2. At the Node prompt, input:
-> node Web_files/main_app.js
+> node main_app.js
 3. And your site will be live!
