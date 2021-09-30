@@ -2,7 +2,8 @@ This is a demo website which includes a MySQL database. The initial purpose was 
 
 1. Boot up your Node.js instance, clone this repository, and use *npm install* to install all of the packages.
 2. In your MySQL database, create a database called "InstaBLAM" without the quotes. Then, run this SQL command:
-> source Tables_and_Triggers.sql
+> source Tables_and_Triggers.sql  
+
 Then, exit sql and go back to the Node command prompt. You can do this by typing "exit" into the SQL command prompt.
 3. At the Node prompt, input:
 > node main_app.js
