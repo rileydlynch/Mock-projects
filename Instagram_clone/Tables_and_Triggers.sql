@@ -22,7 +22,7 @@ CREATE TABLE photos(
 	likes_id INT,
 	comments_id INT,
 	image_path VARCHAR(255) NOT NULL,
-	FOREIGN KEY (user_id) REFERENCES users (id),
+	FOREIGN KEY (user_id) REFERENCES users (id)
 )  ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE hashtags(
