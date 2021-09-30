@@ -1,8 +1,7 @@
 var express = require('express');
 var app = express();
 var fs = require('fs')
-var faker = require('faker');
-var mysql = require('mysql');
+var mysql = require('mysql2');
 var bodyParser  = require("body-parser");
 var multer = require('multer');
 var upload = multer({ dest: 'Images/' });
@@ -11,7 +10,6 @@ var xml2js = require('xml2js');
 var parseString = xml2js.parseString;
 var xml = "<root>Hello xml2js!</root>";
 const axios = require('axios');
-const ObjectsToCsv = require('objects-to-csv');
 
 var appRoot = process.env.PWD;
 
