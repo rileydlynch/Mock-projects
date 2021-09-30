@@ -81,6 +81,11 @@ app.get("/login", async function(req, res){
 	res.render("login", {data:navdata});
 });
 
+app.get("/failed-login", async function(req, res){
+	var navdata = await getnav();
+	res.render("failed-login.ejs", {data:navdata});
+});
+
 app.post('/check_login', async function(req,res){
 	const bcrypt = await require("bcrypt");// compare new hash of password with one stored in MySQL database
 	Postres = res;
@@ -101,8 +106,8 @@ app.post('/check_login', async function(req,res){
 			  }
 			else {
 				console.log("Not a match!");
-				console.log("The entered password is: " + hashedPassword);
-				// response is OutgoingMessage object that server response http request
+				console.log("The entered password is: " + Postreq.body.password);
+				Postres.redirect("/failed-login")
 			  }
 		});
 	});
